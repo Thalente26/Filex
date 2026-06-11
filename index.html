@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Filex | Unified Tax Intelligence</title>
+  <link rel="icon" type="image/png" href="icon.png">
+  <!-- Google Fonts: Modern Serif + Sans combo -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 (free icons, proper scalable icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f7fafd;
+      font-family: 'Inter', sans-serif;
+      color: #11212e;
+      line-height: 1.4;
+      scroll-behavior: smooth;
+    }
+
+    /* custom shapes & container styling */
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* glassmorphic / modern card styling */
+    .card {
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(2px);
+      border-radius: 2rem;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.02);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 28px 40px -18px rgba(0,0,0,0.15);
+    }
+
+    /* hero & logo */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: 'Space Grotesk', monospace;
+      font-weight: 600;
+      font-size: 1.8rem;
+      letter-spacing: -0.02em;
+    }
+    .logo i {
+      font-size: 2rem;
+      background: linear-gradient(135deg, #1C4E80, #2A7F6E);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    /* shapes decorations */
+    .shape-bg {
+      position: fixed;
+      top: -20%;
+      right: -10%;
+      width: 70vw;
+      height: 70vw;
+      background: radial-gradient(circle, rgba(44,123,229,0.03) 0%, rgba(44,123,229,0) 70%);
+      border-radius: 50%;
+      z-index: -2;
+      pointer-events: none;
+    }
+    .shape-bg-2 {
+      bottom: -10%;
+      left: -15%;
+      width: 80vh;
+      height: 80vh;
+      background: radial-gradient(ellipse, rgba(42,127,110,0.04), transparent);
+      position: fixed;
+      border-radius: 50%;
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    /* buttons and badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(28,78,128,0.08);
+      padding: 0.35rem 1rem;
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #1C4E80;
+      letter-spacing: -0.2px;
+    }
+    .btn-waitlist {
+      background: #11212e;
+      border: none;
+      padding: 0.9rem 2rem;
+      border-radius: 3rem;
+      font-weight: 600;
+      font-size: 1rem;
+      color: white;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      transition: all 0.2s;
+      cursor: pointer;
+      box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+    }
+    .btn-waitlist:hover {
+      background: #1C4E80;
+      transform: scale(1.02);
+      gap: 1rem;
+    }
+
+    /* image & video containers (your assets) */
+    .media-container {
+      border-radius: 1.75rem;
+      overflow: hidden;
+      background: #eef2f5;
+      box-shadow: 0 12px 28px -12px rgba(0,0,0,0.2);
+      transition: all 0.25s;
+      aspect-ratio: 16 / 9;
+      width: 100%;
+    }
+    .media-container img, .media-container video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    /* placeholder styling for demo - you replace with your own URLs */
+    .demo-placeholder-img {
+      background: linear-gradient(145deg, #dce6ef, #cbd8e6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      color: #1C4E80;
+      font-weight: 500;
+      gap: 10px;
+    }
+
+    /* feature grid */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+    .feature-card {
+      padding: 1.6rem;
+      border-radius: 1.8rem;
+      background: white;
+      transition: all 0.2s;
+      border: 1px solid #eef2f8;
+    }
+    .feature-icon {
+      font-size: 2.2rem;
+      background: linear-gradient(125deg, #1C4E80, #2A7F6E);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 1rem;
+    }
+    .feature-title {
+      font-family: 'Space Grotesk', monospace;
+      font-weight: 600;
+      font-size: 1.55rem;
+      letter-spacing: -0.02em;
+      margin: 0.5rem 0 0.75rem;
+    }
+    .feature-desc {
+      color: #2c404f;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+    .feature-list {
+      list-style: none;
+      margin-top: 0.8rem;
+    }
+    .feature-list li {
+      font-size: 0.8rem;
+      margin: 0.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .feature-list li i {
+      width: 1.2rem;
+      color: #2A7F6E;
+      font-size: 0.8rem;
+    }
+    .coming-soon {
+      display: inline-block;
+      font-size: 0.7rem;
+      background: #eef2fa;
+      border-radius: 40px;
+      padding: 0.2rem 0.8rem;
+      font-weight: 600;
+      color: #1C4E80;
+      margin-top: 0.75rem;
+    }
+
+    /* containerised video section (hero right side) */
+    .hero-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2.5rem;
+      align-items: center;
+      justify-content: space-between;
+      margin: 2rem 0 3rem;
+    }
+    .hero-content {
+      flex: 1.1;
+    }
+    .hero-media {
+      flex: 1;
+      min-width: 260px;
+    }
+
+    /* Separator shape */
+    .section-shape {
+      background: #ffffffd9;
+      border-radius: 3rem;
+      padding: 2rem 0;
+      margin: 2rem 0;
+    }
+
+    /* footer waitlist CTA */
+    .waitlist-footer {
+      text-align: center;
+      background: #eef3f9;
+      border-radius: 3rem;
+      padding: 2.5rem;
+      margin: 3rem 0 2rem;
+    }
+
+    hr {
+      margin: 2rem 0;
+      border: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #cbdde9, transparent);
+    }
+
+    @media (max-width: 780px) {
+      .container {
+        padding: 0 1.25rem;
+      }
+      .feature-title {
+        font-size: 1.35rem;
+      }
+    }
+
+    /* test for images & vids – you replace src accordingly */
+    .custom-img {
+      background: #eef2f8;
+    }
+    .pic{
+      width:98px;
+      height:100%;
+      margin-left:10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="shape-bg"></div>
+<div class="shape-bg-2"></div>
+
+<div class="container" style="padding-top: 2rem;">
+  <!-- header with logo and waitlist trigger -->
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+    <div class="logo">
+      <img href="index.html" class="pic" src="logo.png" alt="Filex Logo">
+      <!--<i class="fas fa-brain"></i>
+      <span>Filex </span>
+      <span style="font-size: 0.7rem; background: #EFF3F8; padding: 0.2rem 0.7rem; border-radius: 30px; font-weight: normal;">see</span>-->
+    </div>
+    <button class="btn-waitlist" id="waitlistBtnMain"><i class="fas fa-paper-plane"></i> Join waitlist →</button>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero-grid">
+    <div class="hero-content">
+      <div class="badge"><i class="fas fa-microchip"></i> Knowledge Capital OS</div>
+      <h1 style="font-size: 3.2rem; font-weight: 700; letter-spacing: -0.03em; margin: 1rem 0 0.5rem; line-height: 1.2;">Consolidate your firm's<br><span style="background: linear-gradient(125deg, #1C4E80, #2A7F6E); background-clip: text; -webkit-background-clip: text; color: transparent;">Knowledge Capital.</span></h1>
+      <p style="font-size: 1.15rem; color: #2a4559; max-width: 90%; margin: 1.2rem 0 1rem;">The only regulatory platform that unifies high-speed tax research with internal talent development. Secure multi‑tenant architecture, built for compliance.</p>
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <button class="btn-waitlist" id="waitlistBtnHero" style="background: #1C4E80;"><i class="fas fa-rocket"></i> Request early access</button>
+        <!--<button style="background: transparent; border: 1px solid #bdd4e4; border-radius: 3rem; padding: 0.9rem 1.7rem; font-weight: 500; display: inline-flex; align-items: center; gap: 0.5rem;"><i class="fas fa-chalkboard-user"></i> See demo</button>-->
+      </div>
+    </div>
+    
+    <!-- thus us the original preview text that was replaced by the prev image below. poster="https://placehold.co/600x400/eef2f8/1C4E80?text=Filex+preview"-->
+    
+    <div class="hero-media">
+      <!-- containerised video placeholder: REPLACE with your own video src -->
+      <div class="media-container">
+        <video poster="prev.jpg"
+
+controls style="width:100%; height:100%; object-fit: cover;">
+          <source src="fl.mp4" type="video/mp4">
+          Your browser does not support video. Add your own file.
+        </video>
+        <div style="font-size: 0.7rem; background: #f0f4f9; text-align: center; padding: 4px;">🎬 Replace with your product walkthrough video</div>
+      </div>
+      <p class="badge" style="margin-top: 0.7rem; background: white;"><i class="fas fa-check-circle"></i> Filex vision and philosophy</p>
+    </div>
+  </div>
+
+  <!-- Choose below + Click to confirm section -->
+  <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 1rem; margin: 1rem 0 0.5rem;">
+    <div class="badge" style="background: #11212e; color: white;"><i class="fas fa-crown"></i> Choose below</div>
+    <span id="confirmStatus" style="font-size: 0.8rem; background: #eef0f3; padding: 0.3rem 1rem; border-radius: 100px;"><i class="far fa-circle-check"></i> Click to confirm · not selected</span>
+  </div>
+
+  <!-- FEATURE section 01, 02, 03 (integrated tax research + others) -->
+  <div class="feature-grid">
+    <!-- 01 Integrated Tax Research -->
+    <div class="feature-card" data-feature="Integrated Tax Research">
+      <div class="feature-icon"><i class="fas fa-database"></i></div>
+      <div class="feature-title">01. Integrated Tax Research</div>
+      <div class="feature-desc">A unified reference layer across IRS and State-level publications. Filex consolidates multi-jurisdictional databases and your firm's private historical corpus index into a singular, rapid workspace-safeguarding production margins from manual search loops.</div>
+      <ul class="feature-list">
+        <li><i class="fas fa-link"></i> Unified Multi-Jurisdictional Cross-Referencing</li>
+        <li><i class="fas fa-folder-tree"></i> Firm-Wide Private Corpus Indexing</li>
+        <li><i class="fas fa-code-branch"></i> Algorithmic Statutory Decoupling & Semantic Translation</li>
+        <li><i class="fas fa-check-double"></i> Real-Time Citator Verification Engine</li>
+        <li><i class="fas fa-highlighter"></i> In-Workflow Contextual Annotation Layers</li>
+      </ul>
+      <div class="coming-soon"><i class="fas fa-hourglass-half"></i> Active development · 2026</div>
+    </div>
+
+    <!-- 02 Adaptive Professional Study -->
+    <div class="feature-card" data-feature="Adaptive Professional Study">
+      <div class="feature-icon"><i class="fas fa-chalkboard"></i></div>
+      <div class="feature-title">02. Adaptive Professional Study</div>
+      <div class="feature-desc">Turn daily client case execution into background professional asset generation. Filex algorithmically parses active work files into automated spaced-repetition memory tracks, driving junior analyst CPA/EA exam pass rates.</div>
+      <ul class="feature-list">
+        <li><i class="fas fa-brain"></i> In-Workflow Automated SRS Generation</li>
+        <li><i class="fas fa-chart-line"></i> Ebbinghaus Algorithmic Review Triggers</li>
+        <li><i class="fas fa-sitemap"></i> Taxonomy Mapping & Professional Syllabus Synchronization</li>
+        <li><i class="fas fa-gamepad"></i> Contextual Case-Based Simulation Matrices</li>
+        <li><i class="fas fa-sync-alt"></i> Dynamic Knowledge Gap Remediation Loops</li>
+      </ul>
+      <div class="coming-soon"><i class="fas fa-clock"></i> Coming Soon</div>
+    </div>
+
+    <!-- 03 Enterprise Talent Analytics -->
+    <div class="feature-card" data-feature="Enterprise Talent Analytics">
+      <div class="feature-icon"><i class="fas fa-chart-gantt"></i></div>
+      
+      <div class="feature-title">03. Enterprise Talent Analytics</div>
+      <div class="feature-desc">Full oversight of your practice’s human capital. Gain real-time, predictive visibility into regional baseline research velocities, systemic technical blind spots, and firm-wide knowledge capital ROI.</div>
+      <ul class="feature-list">
+        <li><i class="fas fa-chart-gantt"></i> Predictive Certification Readiness Mapping</li>
+        <li><i class="fas fa-search"></i> High Frequency Research Trend & Risk Detection</li>
+        <li><i class="fas fa-tachometer-alt"></i> Granular Latency & Research Velocity Analytics</li>
+        <li><i class="fas fa-coins"></i> Institutional Knowledge Capital ROI Metrics</li>
+        <li><i class="fas fa-globe"></i> Cross-Jurisdictional Workforce Benchmarking</li>
+      </ul>
+      <div class="coming-soon"><i class="fas fa-cloud-upload-alt"></i> Coming Soon</div>
+    </div>
+  </div>
+
+  <!-- Image gallery / containerised images (your own asset linking) -->
+  <div style="display: flex; flex-wrap: wrap; gap: 2rem; margin: 2rem 0; justify-content: space-between; align-items: center;">
+    <div style="flex: 1; min-width: 240px;">
+      <div class="media-container" style="aspect-ratio: 4/3;">
+        <!-- Replace with your custom image link -->
+        <img src="tax.jpeg" alt="Filex Dashboard Preview" style="width:100%; height:100%; object-fit: cover;">
+      </div>
+      <p class="badge" style="margin-top: 0.5rem;"><i class="fas fa-image "></i> Integrated Tax Research</p>
+    </div>
+    <div style="flex: 1; min-width: 240px;">
+      <div class="media-container" style="aspect-ratio: 4/3;">
+        <img src="study.jpeg" alt="Learning Analytics" style="width:100%; height:100%; object-fit: cover;">
+      </div>
+      <p class="badge" style="margin-top: 0.5rem;"><i class="fas fa-chart-line"></i> Adaptive Professional Study</p>
+    </div>
+    
+    <div style="flex: 1; min-width: 240px;">
+      <div class="media-container" style="aspect-ratio: 4/3;">
+        <img src="metrics.jpeg" alt="Learning Analytics" style="width:100%; height:100%; object-fit: cover;">
+      </div>
+      <p class="badge" style="margin-top: 0.5rem;"><i class="fas fa-chart-line"></i> Talent Metrics/Analytics </p>
+    </div>
+    
+    
+    
+    <!-- additional containerized video short 
+    <div style="flex: 1; min-width: 240px;">
+      <div class="media-container">
+        <video muted loop controls poster="https://placehold.co/600x400/ffffff/1C4E80?text=Video+Preview" style="width:100%">
+          <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+        </video>
+      </div>
+      <p class="badge" style="margin-top:0.5rem;"><i class="fas fa-video"</i>Hello</p>
+    </div>-->
+  </div>
+
+  <!-- additional container with shapes - description of architecture -->
+  <div class="card" style="padding: 2rem; margin: 2rem 0; background: white;">
+    <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: center;">
+      <div style="flex: 1.2;">
+        <i class="fas fa-shield-haltered" style="font-size: 2rem; color: #2A7F6E;"></i>
+        <h3 style="font-family: 'Space Grotesk'; margin: 0.5rem 0;">Designed for professional accounting practices.</h3>
+        <p><strong>Secure Multi-Tenant Architecture. Built for Compliance.</strong> SOC 2 Type II, GDPR-ready, end-to‑end encryption for internal research vectors.</p>
+        <button class="btn-waitlist" id="waitlistBtnArch" style="margin-top: 1rem; background: #11212e;"><i class="fas fa-lock"></i> Get compliance-ready access</button>
+      </div>
+      <div style="flex: 1;">
+        <div class="media-container" style="aspect-ratio: 1/1; max-width: 220px; margin: 0 auto;">
+          <img src="team.jpg" alt="Secure architecture" style="border-radius: 1.5rem;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Additional shapes + final waitlist area -->
+  <div class="waitlist-footer">
+    <i class="fas fa-arrow-down" style="font-size: 1.8rem; color: #1C4E80; opacity: 0.7;"></i>
+    <h2 style="font-size: 2rem; font-weight: 600; letter-spacing: -0.02em; margin: 0.5rem 0;">Be among the first firms</h2>
+    <p style="max-width: 550px; margin: 0.5rem auto;">Filex unifies tax research, learning, and analytics. Claim your spot for early 2026 pilot.</p>
+    <div style="margin-top: 1rem;">
+      <button class="btn-waitlist" id="waitlistFinalBtn" style="background: #1C4E80; padding: 0.9rem 2.2rem;"><i class="fas fa-envelope-open-text"></i> Join the waitlist →</button>
+    </div>
+    <div style="margin-top: 1.3rem; font-size: 0.75rem; display: flex; gap: 1.2rem; justify-content: center;">
+      <span><i class="fas fa-check-circle"></i> Have your input in the building process</span>
+      <br />
+      <span><i class="fas fa-globe"></i> Global compliance ready</span>
+    </div>
+  </div>
+
+  <hr>
+  <div style="display: flex; justify-content: space-between; padding: 0.5rem 0 2rem; font-size: 0.75rem; color: #496f86;">
+    <span>© 2026 Filex - Unified Tax Intelligence</span>
+    <span><i class="fab fa-twitter"></i> <i class="fab fa-linkedin" style="margin-left: 0.7rem;"></i> <i class="fab fa-slack" style="margin-left: 0.7rem;"></i></span>
+  </div>
+</div>
+<!-- Modal Popup -->
+<div id="waitlistModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(17,33,46,0.6); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center;">
+  <div class="card" style="width: 90%; max-width: 450px; padding: 2rem; position: relative;">
+    <button onclick="document.getElementById('waitlistModal').style.display='none'" style="position: absolute; top: 1rem; right: 1rem; border: none; background: none; cursor: pointer; font-size: 1.2rem;">&times;</button>
+    <h2 style="margin-bottom: 1rem; font-family: 'Space Grotesk';">Request Access</h2>
+    <p style="margin-bottom: 1.5rem; font-size: 0.9rem; color: #496f86;">Enter your details to join the Filex pilot program.</p>
+    
+    <form action="https://formspree.io/f/xnjwkzoo" method="POST" id="waitlistForm">
+      
+      <input type="text" name="name" placeholder="Full Name" required style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid #cbdde9; border-radius: 0.5rem;">
+      
+      <input type="text" name="designation" placeholder="Designation/Role" required style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid #cbdde9; border-radius: 0.5rem;">
+      
+      <input type="number" name="number" placeholder="WhatsApp number (optional)" style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid #cbdde9; border-radius: 0.5rem;">
+      
+      <input type="email" name="email" placeholder="Corporate Email" required style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid #cbdde9; border-radius: 0.5rem;">
+      
+      <input type="hidden" name="interested_feature" id="interestedFeatureInput" value="General">
+      
+      <textarea style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid #cbdde9; border-radius: 0.5rem;"
+                        id="message"
+                        name="message" 
+                        rows="6" 
+                        placeholder="Tell us about your team's current research friction, unbillable hours leaks, or CPA training challenges..." 
+                        required
+                    ></textarea>
+      
+      <button type="submit" class="btn-waitlist" style="width: 100%; justify-content: center;">Submit Request</button>
+    </form>
+  </div>
+</div>
+
+<!-- interactive "click to confirm" feature (Choose below + confirm per card selection) -->
+<script>
+  (function() {
+    // 1. Setup Elements
+    const confirmSpan = document.getElementById('confirmStatus');
+    const modal = document.getElementById('waitlistModal');
+    const featureInput = document.getElementById('interestedFeatureInput');
+    const allWaitlistBtns = document.querySelectorAll('#waitlistBtnMain, #waitlistBtnHero, #waitlistBtnArch, #waitlistFinalBtn');
+    let activeFeature = null;
+
+    // 2. Feature selection logic
+    function setConfirm(featureName) {
+      activeFeature = featureName;
+      if(confirmSpan) {
+        confirmSpan.innerHTML = `<i class="fas fa-check-circle" style="color:#2A7F6E;"></i> Confirmed: ${featureName} · ready for pilot`;
+        confirmSpan.style.background = "#e0f0ea";
+        confirmSpan.style.fontWeight = "500";
+      }
+    }
+
+    // Attach click to cards
+    document.querySelectorAll('.feature-card').forEach(card => {
+      const titleElem = card.querySelector('.feature-title');
+      const featureTitle = titleElem ? titleElem.innerText.trim() : "Tax Research Suite";
+      
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', (e) => {
+        setConfirm(featureTitle);
+        card.style.transition = "0.1s";
+        card.style.boxShadow = "0 0 0 2px #2A7F6E, 0 10px 20px -5px rgba(0,0,0,0.1)";
+        setTimeout(() => card.style.boxShadow = "", 300);
+      });
+    });
+
+    // 3. Consolidated Button Logic: Open Modal + Sync Feature
+    allWaitlistBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Sync the selected feature to the hidden form input before opening
+        if(activeFeature && featureInput) {
+          featureInput.value = activeFeature;
+        }
+        modal.style.display = 'flex';
+      });
+    });
+
+    // 4. Form submission handler
+    const form = document.getElementById('waitlistForm');
+    if(form) {
+      form.addEventListener('submit', function() {
+        setTimeout(() => {
+          modal.style.display = 'none';
+          // Visually update buttons after submission
+          allWaitlistBtns.forEach(btn => {
+            btn.innerHTML = '✓ Request received';
+            btn.disabled = true;
+            btn.style.opacity = "0.7";
+          });
+        }, 500);
+      });
+    }
+    
+    // Close modal if clicking outside
+    window.addEventListener('click', (e) => {
+      if(e.target == modal) modal.style.display = 'none';
+    });
+  })();
+</script>
+
+<!-- Additional reminder: replace all placeholder media src with your own images/videos -->
+<!-- the video containers, image containers have placeholder URLs from placehold.co and sample videos — just switch src attributes in the <img> and <video> tags with your assets -->
+</body>
+</html>
